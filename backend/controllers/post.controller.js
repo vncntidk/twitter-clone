@@ -87,7 +87,8 @@ export const commentOnPost = async (req, res) => {
         post.comments.push(comment);
         await post.save();
 
-        res.status(200).json(post);
+        await post.populate("comments.user", "username profileImg fullName");
+        res.status(200).json(post.comments);
 
     } catch (error) {
         console.log("Error in commentOnPost controller", error.message);
